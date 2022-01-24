@@ -1,5 +1,6 @@
 let RandomNumber = 0;
 let chance = 5;
+let gameOver = false;
 function pickRandomNumber() {
   RandomNumber = Math.floor(Math.random() * 100) + 1;
   console.log("정답: ", RandomNumber);
@@ -8,33 +9,55 @@ function pickRandomNumber() {
 let play = document.getElementById("play");
 
 let number = document.getElementById("user-num");
-let playchance = document.getElementById("play-chance");
-let changetext = document.getElementById("play-text");
-let reset = document.getElementById("reset")
-play.addEventListener("click", gameplay);
-reset.addEventListener("click",gamereset);
-
-function gameplay() {
+let playChance = document.getElementById("play-chance");
+let changeText = document.getElementById("play-text");
+let reset = document.getElementById("reset");
+let history=[]
+play.addEventListener("click", gamePlay);
+reset.addEventListener("click", gameReset);
+number.addEventListener("focus",function () {
+  number.value = "";
+})
+function gamePlay() {
   let userNum = number.value;
-  chance --;
-  playchance.textContent = chance;
+
+  if(userNum<1 || userNum > 100){
+    changeText.textContent = "1과 100 사이의 숫자만 가능합니다."
+    return;
+  }
+  if(history.includes(userNum)){
+    changeText.textContent = "중복된 값입니다."
+    return;
+  }
+  chance--;
+  playChance.textContent = chance;
+  
   if (userNum > 100) {
-    changetext.textContent = "1부터 100 사이의 숫자만 가능합니다";
+    changeText.textContent = "1부터 100 사이의 숫자만 가능합니다";
   } else if (userNum > RandomNumber) {
-    changetext.textContent = "DOWN!!!";
+    changeText.textContent = "DOWN!!!";
   } else if (userNum < RandomNumber) {
-    changetext.textContent = "UP!!!";
+    changeText.textContent = "UP!!!";
   } else if (userNum == RandomNumber) {
-    changetext.textContent = "맞췄습니다 !!";
+    changeText.textContent = "맞췄습니다 !!";
+    play.disabled=true;
   }
+
+  history.push(userNum);
+  
+
   if (chance < 1) {
-    play.Disabled = true
+    play.disabled = true;
   }
+ // number.value = "";
 }
 pickRandomNumber();
- // 왜 버튼일 게임오버 변수 안만들고 바로disable 하면 안되는지? 
-function gamereset(){
-    number.value=""
-    pickRandomNumber()
-    changetext.textContent = "1~100까지 숫자를 맞춰주세요"
+
+function gameReset() {
+  number.value = "";
+  pickRandomNumber();
+  changeText.textContent = "1~100까지 숫자를 맞춰주세요";
+  chance = 5;
+  playChance.textContent = chance;
+  play.disabled=false;
 }
