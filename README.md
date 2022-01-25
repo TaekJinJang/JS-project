@@ -1,5 +1,6 @@
 # Todo 앱
-![](C:\Users\xorwl\Desktop\프론트앤드\JavaScript\project\TODOLIST)
+![TODOList](https://user-images.githubusercontent.com/93184838/150935895-6917fef7-f8bb-4c7a-8151-d50280cb21f8.JPG)
+
 아이템 추가 제거, 그리고 상태별 할일을 볼수있는 앱입니다. 
 
 
